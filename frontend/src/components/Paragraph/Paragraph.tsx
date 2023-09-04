@@ -7,8 +7,6 @@ interface ParagraphProps {
     fontWeight?: string; 
     textAlign?: 'left' | 'center' | 'right' | 'justify';
     hideText?: string;
-    testId?: string;
-    role?: string;
 }
 
 const Paragraph: React.FC<ParagraphProps> = ({
@@ -18,8 +16,6 @@ const Paragraph: React.FC<ParagraphProps> = ({
     fontWeight = 'font-[400]',     
     textAlign = 'center', 
     hideText = '',
-    testId = '',
-    role = 'paragraph'
 }) => {
 
     const textSizeMap = {
@@ -37,7 +33,6 @@ const Paragraph: React.FC<ParagraphProps> = ({
     return (
         <p 
             className={`${color} ${textSizeClass} ${fontWeight} text-${textAlign} ${hideText}`}
-            data-testid={testId} role={role}
         >
             {content}
         </p>
