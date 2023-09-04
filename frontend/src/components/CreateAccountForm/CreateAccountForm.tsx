@@ -1,20 +1,28 @@
-import React from 'react';
+import React, { useState } from 'react';
 import Input from '../Input/Input';
 import ButtonLogIn from '../ButtonLogIn/ButtonLogIn';
 import useFormValidation from '../../hooks/useFormValidation';
 import { useRouter } from 'next/router';
 import { registerRequest } from '../../../api/auth';
+import { AxiosError } from 'axios';
 
 const CreateAccountForm = () => {
 
-    const { values, errors, handleChange, validateForm, handleDepartmentNumber } = useFormValidation();
+    const { values, errors, handleChange, validateRegisterForm, handleDepartmentNumber } = useFormValidation();
+    const [registerError, setRegisterError] = useState("");
     const router = useRouter();
 
     const handleSubmit = async (event: React.FormEvent) => {
         event.preventDefault();
-        if (validateForm()) {
-            const res = await registerRequest(values);
-            router.push('/profile');
+        if (validateRegisterForm()) {
+            try {
+                const res = await registerRequest(values);
+                router.push('/profile');
+            } catch (error) {
+                if (error instanceof AxiosError) {
+                    setRegisterError(error?.response?.data?.message);
+                }
+            } 
         }
     };
 
@@ -63,6 +71,7 @@ const CreateAccountForm = () => {
             {errors.lastName && <p className="text-[14px] text-red-500 mb-2">{errors.lastName}</p>}
             {errors.email && <p className="text-[14px] text-red-500 mb-2">{errors.email}</p>}
             {errors.password && <p className="text-[14px] text-red-500 mb-2">{errors.password}</p>}
+            {registerError !== "" && <p className="text-[14px] text-red-500 mb-2">{registerError}</p>}
 
             <div className='mb-11'>
                 <ButtonLogIn 

@@ -6,6 +6,9 @@ export const register = async (req, res) => {
     const { username, lastName, email, password, departmentNumber } = req.body;
 
     try {
+        const userFound = await User.findOne({email});
+        if (userFound) return res.status(400).json({ message: ["Este correo ya está asociado a una cuenta"]});
+
         const hashPassword = await bcrypt.hash(password, 10);
         const newUser = new User ({
             username,
@@ -29,9 +32,9 @@ export const login = async (req, res) => {
 
     try {
         const userFound = await User.findOne({ email });
-        if (!userFound) return res.status(400).json({ message: "User not found" });
+        if (!userFound) return res.status(400).json({ message: "Usuario no encontrado" });
         const isMatch = await bcrypt.compare(password, userFound.password);
-        if (!isMatch) return res.status(400).json({ message: "Incorrect password" });
+        if (!isMatch) return res.status(400).json({ message: "Contraseña incorrecta" });
         
         const token = await createAccessToken({ id: userFound._id });
         

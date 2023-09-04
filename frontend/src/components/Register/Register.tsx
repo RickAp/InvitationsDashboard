@@ -15,7 +15,6 @@ const Register = () => {
             <div className='mt-8'>
                 <Paragraph 
                     content='Registrarse'
-                    color='text-[var(--grayscale-black)]'
                     size='xxl'
                     fontWeight='font-[700]'
                 />
@@ -23,7 +22,6 @@ const Register = () => {
             <div className='mt-3 text-center px-5'>
                 <Paragraph
                     content="Llena el siguiente formulario para registrarte"
-                    color='text-[var(--grayscale-gray)]'
                     size='sm'
                     fontWeight='font-[400]'
                 />

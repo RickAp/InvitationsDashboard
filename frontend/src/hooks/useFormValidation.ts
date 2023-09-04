@@ -72,7 +72,7 @@ const useFormValidation = () => {
         }
     };
 
-    const validateForm = (): boolean => {
+    const validateRegisterForm = (): boolean => {
         if (!values.username) {
             setErrors((prev) => ({ ...prev, username: 'El campo "Nombre" no puede estar vacío' }));
             return false;
@@ -92,12 +92,25 @@ const useFormValidation = () => {
         return true;
     };
 
+    const validateLoginForm = (): boolean => {
+        if (!values.email || !isValidEmail(values.email)) {
+            setErrors((prev) => ({ ...prev, email: 'Correo electrónico inválido' }));
+            return false;
+        }
+        if (values.password.length < 8 || (!values.password) || (values.password.length > 40))  {
+            setErrors((prev) => ({ ...prev, password: 'La contraseña debe tener entre 8 y 40 caracteres' }));
+            return false;
+        }
+        return true;
+    };
+
     return {
         values,
         errors,
         handleChange,
-        validateForm,
-        handleDepartmentNumber
+        validateRegisterForm,
+        handleDepartmentNumber,
+        validateLoginForm
     };
 };
 
