@@ -6,6 +6,9 @@ interface FormState {
     username: string;
     lastName: string;
     departmentNumber: number;
+    invitedName: string;
+    entryDate: string;
+    expirationDate: string;
 }
 
 interface ValidationErrors {
@@ -14,6 +17,9 @@ interface ValidationErrors {
     username?: string;
     lastName?: string;
     departmentNumber?: number;
+    invitedName?: string;
+    entryDate?: string;
+    expirationDate?: string;
 }
 
 const useFormValidation = () => {
@@ -22,7 +28,10 @@ const useFormValidation = () => {
         password: '', 
         username: '', 
         lastName: '', 
-        departmentNumber: 0 
+        departmentNumber: 0,
+        invitedName: '',
+        entryDate: '',
+        expirationDate: '', 
     });
     const [errors, setErrors] = useState<ValidationErrors>({});
 
@@ -62,6 +71,24 @@ const useFormValidation = () => {
                     setErrors((prev) => ({ ...prev, password: undefined }));
                 }
                 break;
+            case 'invitedName':
+                if (!newValue) {
+                    setErrors((prev) => ({ ...prev, lastName: 'El campo "Invitado" no puede estar vacío' }));
+                } else {
+                    setErrors((prev) => ({ ...prev, invitedName: undefined }));
+                }
+            case 'entryDate':
+                if (!newValue) {
+                    setErrors((prev) => ({ ...prev, entryDate: 'El campo "Fecha de invitación" no puede estar vacío' }));
+                } else {
+                    setErrors((prev) => ({ ...prev, entryDate: undefined }));
+                }
+            case 'expirationDate':
+                if (!newValue) {
+                    setErrors((prev) => ({ ...prev, expirationDate: 'El campo "Fecha de expiración" no puede estar vacío' }));
+                } else {
+                    setErrors((prev) => ({ ...prev, expirationDate: undefined }));
+                }      
         }
     };
 
@@ -104,13 +131,30 @@ const useFormValidation = () => {
         return true;
     };
 
+    const validateCreateInvitationForm = (): boolean => {
+        if (!values.invitedName) {
+            setErrors((prev) => ({ ...prev, invitedName: 'El campo "Invitado" no puede estar vacío' }));
+            return false;
+        }
+        if (!values.entryDate) {
+            setErrors((prev) => ({ ...prev, invitedName: 'El campo "Fecha de invitación" no puede estar vacío' }));
+            return false;
+        }
+        if (!values.expirationDate) {
+            setErrors((prev) => ({ ...prev, invitedName: 'El campo "Fecha de expiración" no puede estar vacío' }));
+            return false;
+        }
+        return true;
+    };
+
     return {
         values,
         errors,
         handleChange,
         validateRegisterForm,
         handleDepartmentNumber,
-        validateLoginForm
+        validateLoginForm,
+        validateCreateInvitationForm,
     };
 };
 

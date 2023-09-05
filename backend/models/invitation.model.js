@@ -6,11 +6,11 @@ const invitationSchema = new mongoose.Schema({
         required: true,
     },
     entryDate: {
-        type: Date,
+        type: String,
         required: true
     },
     expirationDate: {
-        type: Date,
+        type: String,
         required: true
     },
     user: {

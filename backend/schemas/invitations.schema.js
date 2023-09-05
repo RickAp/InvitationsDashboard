@@ -6,8 +6,8 @@ export const createInvitationSchema = z.object({
     }),
     entryDate: z.string({
         required_error: "entryDate is required"
-    }).datetime(),
+    }),
     expirationDate: z.string({
         required_error: "expirationDate is required"
-    }).datetime(),
+    }),
 });
