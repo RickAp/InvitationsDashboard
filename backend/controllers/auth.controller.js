@@ -21,7 +21,7 @@ export const register = async (req, res) => {
         const token = await createAccessToken({ id: newUserSaved._id });
         
         res.cookie('token', token);
-        res.json(newUserSaved);
+        res.json({ user: newUserSaved, token});
     } catch (error) {
         res.status(500).json({ message: error.message });
     }
@@ -39,7 +39,7 @@ export const login = async (req, res) => {
         const token = await createAccessToken({ id: userFound._id });
         
         res.cookie('token', token);
-        res.json(userFound);
+        res.json({ user: userFound, token});
     } catch (error) {
         res.status(500).json({ message: error.message });
     }

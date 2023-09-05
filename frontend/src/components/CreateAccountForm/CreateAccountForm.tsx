@@ -5,18 +5,22 @@ import useFormValidation from '../../hooks/useFormValidation';
 import { useRouter } from 'next/router';
 import { registerRequest } from '../../../api/auth';
 import { AxiosError } from 'axios';
+import { useDispatch } from 'react-redux';
+import { login } from '../../../redux/userSlice';
 
 const CreateAccountForm = () => {
 
     const { values, errors, handleChange, validateRegisterForm, handleDepartmentNumber } = useFormValidation();
     const [registerError, setRegisterError] = useState("");
     const router = useRouter();
+    const dispatch = useDispatch();
 
     const handleSubmit = async (event: React.FormEvent) => {
         event.preventDefault();
         if (validateRegisterForm()) {
             try {
                 const res = await registerRequest(values);
+                dispatch(login({ token: res?.data?.token, user: res?.data?.user}));
                 router.push('/profile');
             } catch (error) {
                 if (error instanceof AxiosError) {
