@@ -3,6 +3,7 @@ import { useSelector } from "react-redux";
 import { profileRequest } from "../api/auth";
 import { useRouter } from 'next/router';
 import NavBar from "../src/components/NavBar/NavBar";
+import Dashboard from "../src/components/Dashboard/Dashboard";
 
 const Profile = () => {
 
@@ -22,7 +23,7 @@ const Profile = () => {
     };
   
     if (TOKEN) {
-      localStorage.setItem('token', JSON.stringify(TOKEN));
+      localStorage.setItem('token', TOKEN);
       fetchData();
     } else if (!localStorage.getItem('token')) {
       router.push('/');
@@ -33,6 +34,9 @@ const Profile = () => {
     <div className="flex flex-col w-full h-full">
       <div>
         <NavBar />
+      </div>
+      <div className="flex justify-center mt-11">
+        <Dashboard />
       </div> 
     </div>
   );
