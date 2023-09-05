@@ -5,18 +5,22 @@ import useFormValidation from '../../hooks/useFormValidation';
 import { useRouter } from 'next/router';
 import { loginRequest} from '../../../api/auth';
 import { AxiosError } from 'axios';
+import { useDispatch } from 'react-redux';
+import { login } from '../../../redux/userSlice';
 
 const LoginForm = () => {
 
     const { values, errors, handleChange, validateLoginForm } = useFormValidation();
     const [loginError, setLoginError] = useState("");
     const router = useRouter();
+    const dispatch = useDispatch();
 
     const handleSubmit = async (event: React.FormEvent) => {
         event.preventDefault();
         if (validateLoginForm()) {
             try {
                 const res = await loginRequest(values);
+                dispatch(login({ token: res?.data?.token, user: res?.data?.user}));
                 router.push('/profile');
             } catch (error) {
                 if (error instanceof AxiosError) {
@@ -43,6 +47,7 @@ const LoginForm = () => {
                 value={values.password}
                 onChange={handleChange('password')}
             />
+
             {errors.email && <p className="text-[14px] text-red-500 mb-2">{errors.email}</p>}
             {errors.password && <p className="text-[14px] text-red-500 mb-2">{errors.password}</p>}
             {loginError !== "" && <p className="text-[14px] text-red-500 mb-2">{loginError}</p>}
