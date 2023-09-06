@@ -10,8 +10,6 @@ const Profile = () => {
   const TOKEN = useSelector((state: { user: { token: string } }) => state.user.token);
   const USER = useSelector((state: { user: { user: string } }) => state.user.user);
   const router  = useRouter();
-  console.log(TOKEN);
-  console.log(USER);
 
   useEffect(() => {
     const fetchData = async () => {

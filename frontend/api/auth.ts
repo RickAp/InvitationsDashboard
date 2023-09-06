@@ -39,3 +39,11 @@ export const invitationsRequest = (token: string) => {
       }
     });
 };
+
+export const deleteInvitation = (token:string, id: string) => {
+    axios.delete(`${API}/invitations/${id}`, {
+        headers: {
+            'Authorization': `Bearer ${token}`
+        }
+    });
+}

@@ -12,7 +12,7 @@ const CreateInvitationsModal = ({ isOpen, onClose }: CustomModalProps) => {
         <Modal
             isOpen={isOpen}
             onRequestClose={onClose}
-            className='fixed inset-0 flex bg-[white] mr-[400px] ml-[400px] mt-[100px] mb-[100px] items-center justify-center rounded-lg'
+            className='fixed inset-0 flex bg-[white] desktop:mr-[400px] mobile:mr-[25px] desktop:ml-[400px] mobile:ml-[25px] desktop:mt-[100px] mobile:mt-[50px] desktop:mb-[100px] mobile:mb-[50px] items-center justify-center rounded-lg'
             overlayClassName="fixed inset-0 flex items-center justify-center bg-opacity-50 bg-black"
         >
             <div>
