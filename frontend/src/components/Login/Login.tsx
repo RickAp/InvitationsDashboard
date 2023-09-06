@@ -45,6 +45,16 @@ const Login = () => {
                         />
                     </Link>
                 </div>
+
+                <div className="mt-4">
+                    <Link href={'/changePassword'}>
+                        <Paragraph 
+                            content='Cambiar contraseña'
+                            size='sm'
+                            fontWeight='font-[600]'
+                        />
+                    </Link>
+                </div>
             </div>
         </div>
     );
