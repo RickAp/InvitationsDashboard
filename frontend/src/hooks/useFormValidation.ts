@@ -9,6 +9,7 @@ interface FormState {
     invitedName: string;
     entryDate: string;
     expirationDate: string;
+    newPassword: string;
 }
 
 interface ValidationErrors {
@@ -20,6 +21,7 @@ interface ValidationErrors {
     invitedName?: string;
     entryDate?: string;
     expirationDate?: string;
+    newPassword?: string;
 }
 
 const useFormValidation = () => {
@@ -31,7 +33,8 @@ const useFormValidation = () => {
         departmentNumber: 0,
         invitedName: '',
         entryDate: '',
-        expirationDate: '', 
+        expirationDate: '',
+        newPassword: '',
     });
     const [errors, setErrors] = useState<ValidationErrors>({});
 
@@ -88,6 +91,12 @@ const useFormValidation = () => {
                     setErrors((prev) => ({ ...prev, expirationDate: 'El campo "Fecha de expiración" no puede estar vacío' }));
                 } else {
                     setErrors((prev) => ({ ...prev, expirationDate: undefined }));
+                }
+            case 'newPassword':
+                if (newValue.length > 40) {
+                    setErrors((prev) => ({ ...prev, newPassword: 'La contraseña no debe exceder los 40 caracteres' }));
+                } else {
+                    setErrors((prev) => ({ ...prev, newPassword: undefined }));
                 }      
         }
     };
@@ -131,6 +140,22 @@ const useFormValidation = () => {
         return true;
     };
 
+    const validateChangePasswordForm = (): boolean => {
+        if (!values.email || !isValidEmail(values.email)) {
+            setErrors((prev) => ({ ...prev, email: 'Correo electrónico inválido' }));
+            return false;
+        }
+        if (values.password.length < 8 || (!values.password) || (values.password.length > 40))  {
+            setErrors((prev) => ({ ...prev, password: 'La contraseña debe tener entre 8 y 40 caracteres' }));
+            return false;
+        }
+        if (values.newPassword.length < 8 || (!values.newPassword) || (values.newPassword.length > 40))  {
+            setErrors((prev) => ({ ...prev, password: 'La nueva contraseña debe tener entre 8 y 40 caracteres' }));
+            return false;
+        }
+        return true;
+    };
+
     const validateCreateInvitationForm = (): boolean => {
         if (!values.invitedName) {
             setErrors((prev) => ({ ...prev, invitedName: 'El campo "Invitado" no puede estar vacío' }));
@@ -155,6 +180,7 @@ const useFormValidation = () => {
         handleDepartmentNumber,
         validateLoginForm,
         validateCreateInvitationForm,
+        validateChangePasswordForm,
     };
 };
 

@@ -8,6 +8,12 @@ interface User {
     departmentNumber: number; 
 }
 
+interface NewPassword {
+    email: string;
+    password: string;
+    newPassword: string;
+}
+
 interface Invitation {
     invitedName: string;
     entryDate: string;
@@ -47,3 +53,5 @@ export const deleteInvitation = (token:string, id: string) => {
         }
     });
 }
+
+export const changePassword = (newPassword: NewPassword) => axios.post(`${API}/changePassword`, newPassword);
