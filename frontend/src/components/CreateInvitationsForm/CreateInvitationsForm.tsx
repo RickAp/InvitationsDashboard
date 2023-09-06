@@ -1,9 +1,12 @@
-import React from "react";
+import React, { useState } from "react";
 import Input from "../Input/Input";
 import ButtonLogIn from "../ButtonLogIn/ButtonLogIn";
-import { createInvitation, invitationsRequest } from "../../../api/auth";
+import { createInvitation } from "../../../api/auth";
 import Paragraph from "../Paragraph/Paragraph";
-import useFormValidation from "@/hooks/useFormValidation";
+import useFormValidation from "../../hooks/useFormValidation";
+import QRModal from "../QRModal/QRModal";
+import { useDispatch } from 'react-redux';
+import { addInvitation } from "../../../redux/userSlice";
 
 const CreateInvitationsForm = () => {
 
@@ -11,18 +14,39 @@ const CreateInvitationsForm = () => {
 
     const TOKEN = localStorage.getItem('token');
 
+    const [modalIsOpen, setModalIsOpen] = useState(false);
+    const [qrData, setQrData] = useState("");
+    const [invitedName, setInvitedName] = useState("");
+    const [entryDate, setEntryDate] = useState("");
+    const [expirationDate, setExpirationDate] = useState("");
+    const [id, setId] = useState("");
+    const dispatch = useDispatch();
+
+    const openModal = () => {
+        setModalIsOpen(true);
+    };
+
+    const closeModal = () => {
+        setModalIsOpen(false);
+    };
+
     const handleSubmit = async (event: React.FormEvent) => {
         event.preventDefault();
         if ((TOKEN !== null) && (validateCreateInvitationForm())) {
             try {
                 const res = await createInvitation(TOKEN ,values);
-                console.log(res);
-                const invitationRes = await invitationsRequest(TOKEN);
+                setQrData(`${res?.data?.invitedName}, ${res?.data?.entryDate}, ${res?.data?.expirationDate}`);
+                setInvitedName(res?.data?.invitedName);
+                setEntryDate(res?.data?.entryDate);
+                setExpirationDate(res?.data?.expirationDate);
+                setId(res?.data?._id);
+                dispatch(addInvitation(res?.data));
+                openModal();
             } catch (error) {
                 console.log(error);
             }
         } else {
-            console.log("Lo sentimos, ha ocurrido un error")
+            console.log("Lo sentimos, ha ocurrido un error al obtener el token")
         }
     };
 
@@ -65,6 +89,16 @@ const CreateInvitationsForm = () => {
 
             <ButtonLogIn 
                 content="Crear invitación"
+            />
+            <QRModal 
+                isOpen={modalIsOpen}
+                onClose={closeModal}
+                qrData={qrData}
+                invitedName={`Esta invitación es para: ${invitedName}`}
+                entryDate={`La invitación se realizó el día: ${entryDate}`}
+                expirationDate={`Esta invitación caduca el día: ${expirationDate}`}
+                id={id}
+                onDeleteInvitation={() => {}}
             />
         </form>
     );
