@@ -1,4 +1,4 @@
-# TechnicalTestNextia
+# TechnicalTest
 Technical Test
 
 Para ejecutar este proyecto localmente es necesario tener instalado mongoDB en la maquina debido a que es la base de datos local
